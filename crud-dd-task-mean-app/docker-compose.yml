@@ -11,7 +11,7 @@ services:
 
 
   backend:
-    image: sachinace033/fsmean-backend:latest
+    image: sachinace033/mean-backend:latest
     restart: always
     depends_on:
       - mongo
@@ -22,7 +22,7 @@ services:
 
 
   frontend:
-    image: sachinace033/fsmean-frontend:latest
+    image: sachinace033/mean-frontend:latest
     restart: always
     ports:
       - "8081:80"
