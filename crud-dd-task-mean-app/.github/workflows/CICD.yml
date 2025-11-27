@@ -1,1 +1,66 @@
+name: CI/CD Pipeline
 
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.sachinace033 }}
+          password: ${{ secrets.Acedocker@033 }}
+
+      - name: Build & Push Backend
+        run: |
+          cd backend
+          docker build -t ${{ secrets.sachinace033 }}/fsmean-backend:latest .
+          docker push ${{ secrets.sachinace033 }}/fsmean-backend:latest
+
+      - name: Build & Push Frontend
+        run: |
+          cd frontend
+          docker build -t ${{ secrets.sachinace033 }}/fsmean-frontend:latest .
+          docker push ${{ secrets.sachinace033 }}/fsmean-frontend:latest
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.184.72.133.227 }}
+          username: ubuntu
+          key: ${{ secrets.MIIEpQIBAAKCAQEAwQxCK2u/NU4Y6RcUJaQs8yOpxr5IpqxYQe7+XKxMDAXgi5sb
+mv5ySibUufL6JbT9xGIUrfLFzZ3bNuXSxTX6/YW8xS0I2x5uG/mEFcki3Us+V5qh
+1BzNOffJovIUOGVdxE2HDH2C0YDGLPsa/CAwzNgy2UIskDPItu29m73dGgtJZ+i+
+rWXneduqwBVQPi5v4BDPJcdAJ8/vdhIcNNgxgZwxqZAEhtwfPpTmlXrzq2Habisq
+S8x5xPm7bEvy0dN284cf/ETCAuxzquT9A1BzAj4+mkKac5LROFnNtbJzchQiGC+0
+O5QtE3xjF4FwHgDQmYfJXZPoLQex5LjINGVpGQIDAQABAoIBAQCN/cI9xcaiIotY
+Bs2e0h7tx3F86UDutx1DgdI9v80/mqMKjE/FtRnDSMR28SzkxzdQVwP23fZ3woAW
+5PweahHun4u1S+aTpNJAaUqp64NlWY7FSMt3BKg+1u7Ml1ogEQ7i8FNA8KBkEF+z
+fg7fG55JTUw5WN8GQdCEHGG2R/R0zkeL2FERcqOGTNY2kyAKNXP0T0LvVCqouxWt
+eC7yKenfr+HFr1fXajdAqPfh8/BNw3R4HpOq2CSAxXVs49/a/D3zkXJSz1qOH43R
+4LIZNpgs0OsY9RHyBzddVDIHkfnHn7GCfphe9nscHY8+6nF/6J5/b1EYLRmfvzfV
+5E1+3zjBAoGBAPdwcgGbOjiczSY6Tq6jSZgIlQiKdkyDKbKufChmCdSUVsthuUTu
+xU37FNC2XuDvUaScVKeXZgKSFI7mQa+TCi9sc63G9FxQuBfpBzpSPQtLatTfcKqG
+bEEpZmGlvE2oCCCXrfJV6WJHkqryQNceL7f+HR7d0GJo6Axv51k8HIq1AoGBAMe6
+EndtSJxl91wp9NIuSqDa+LXPmaKITUeso8IWLZ3bvHr2iSki2+rjhec0zhllWbh3
+eZ2nkgngkWah0bA/2Q7aKSV/jLLzAYC73MMgruAqVvi/z7D3fWWcpPQlhe9FZcBx
+syy9zNACL3axco8hSNoGWDP3LjeAkPV+hoMyl89VAoGBAKePQeTMlVSY+mOUwIuK
+j9+gkCvEd+/AMpCJkBJbZvTJryzy9F81we7YxHPBy+ZOqd7q7ni/EZlUCw/p5Tlc
+PV13964KOJf7IW8vonFgF256l9GnrcgMV2qY+nfNoAKGc1p+3JBqlSy0gyG4Ayip
+jG7wag/o7aB2og0qCmRnTHyxAoGBAKBDowXJ33YALBj8YcM1+hRRITliuDk/fiOB
+WHYpLbl51SgmI7GqkyVMJOp96NNgDDqFREVJbVoXpRThzEzNLvNIA7RfQRtm+1G9
+bUv2Md0WnGtGHvY14Z1jsMloQqzY1ukxU0EXm/1dg5COmwpW/wpUBPrN4XwP4kHb
+oTwtoLtxAoGARj3QqDGOul8WTTgRscxfklmbz4eS+17ai6mcPqpIiW205og/zTfG
+dH3v9ITk7h9KBB0kmDQK02I8CuFIrZ7WMik/uvWx/4yzG/h2naQriLl+yzbj62wX
+ojK60P6MLOlBLymP7ntYmx9YhBxCdwPeHPJi08Lsy5r4oxnM/JwgRX8= }}
+          script: |
+            cd /MEAN-app-devops-assignment/crud-dd-task-mean-app/
+            git pull origin main
+            docker-compose down
+            docker-compose pull
+            docker-compose up -d
