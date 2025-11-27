@@ -1,0 +1,24 @@
+events {
+    worker_connections 1024;
+}
+
+
+http {
+    server {
+        listen 80;
+
+        # Serve Angular frontend
+        location / {
+            proxy_pass http://frontend:80;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+        }
+
+        # Proxy all API calls to backend
+        location /api/ {
+            proxy_pass http://backend:8080/;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+        }
+    }
+}

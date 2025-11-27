@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:latest
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+
+  backend:
+    image: sachinace033/fsmean-backend:latest
+    restart: always
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/Fullstack-MEAN_db   # this is a DB name, I used these code
+    ports:
+      - "8080:8080"
+
+
+  frontend:
+    image: sachinace033/fsmean-frontend:latest
+    restart: always
+    ports:
+      - "8081:80"
+
+
+  nginx:
+    image: nginx:alpine
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx-reverse-proxy.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - frontend
+      - backend
+
+
+volumes:
+  mongo-data:
